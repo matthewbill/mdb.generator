@@ -9,11 +9,17 @@
         "test": "jest __tests__ --coverage",
         "int-test": "jest __int_tests__ --coverage"
     },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/matthewbill/<%= name %>.git"
+    },
     "keywords": [
         "mdb"
     ],
     "author": "Matthew Bill",
-    "license": "UNLICENSED",
+    "license": "<%= license %>",
+    "homepage": "https://github.com/matthewbill/<%= name %>#readme",
+    "bugs": "https://github.com/matthewbill/<%= name %>/issues/",
     "dependencies": {
     },
     "devDependencies": {

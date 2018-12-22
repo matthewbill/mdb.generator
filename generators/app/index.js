@@ -15,6 +15,12 @@ module.exports = class extends Generator {
       message: 'Your project description',
       default: '', // Default to current folder name
     }, {
+      type: 'list',
+      name: 'license',
+      message: 'What license should be used?',
+      choices: ['UNLICENSED', 'MIT'],
+      default: 'MIT',
+    }, {
       type: 'confirm',
       name: 'travis',
       message: 'Would you like to enable a travis build?',
@@ -49,11 +55,18 @@ module.exports = class extends Generator {
       self.destinationPath('.npmrc'),
     );
 
-    if (self.answers.travis) {
+    if (self.answers.license === 'MIT') {
       self.fs.copy(
+        self.templatePath('LICENSE-MIT'),
+        self.destinationPath('LICENSE'),
+      );
+    }
+
+    if (self.answers.travis) {
+      self.fs.copyTpl(
         self.templatePath('.travis.yml'),
         self.destinationPath('.travis.yml'),
-        { name: self.answers.name, },
+        { name: self.answers.name },
       );
     }
 
@@ -67,7 +80,7 @@ module.exports = class extends Generator {
     self.fs.copyTpl(
       self.templatePath('package.json'),
       self.destinationPath('package.json'),
-      { name: self.answers.name, description: self.answers.description },
+      { name: self.answers.name, description: self.answers.description, license: self.answers.license },
     );
 
     self.fs.copyTpl(

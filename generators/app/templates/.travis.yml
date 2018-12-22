@@ -14,7 +14,8 @@ before_install:
 - sudo apt-get install -y jq
 
 script:
-- echo running script
+- npm run lint
+- npm test
 
 before_deploy:
 # Git Configuration
@@ -42,3 +43,5 @@ after_deploy:
 - git push
 - git tag $VERSION
 - git push --tags
+# Docs
+- npm run docs

@@ -8,6 +8,10 @@
     "test": "jest __tests__ --coverage",
     "int-test": "jest __int_tests__ --coverage"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matthewbill/mdb.generator.git"
+  },
   "files": [
     "generators"
   ],
@@ -17,6 +21,8 @@
   ],
   "author": "Matthew Bill",
   "license": "MIT",
+  "homepage": "https://github.com/matthewbill/mdb.generator#readme",
+  "bugs": "https://github.com/matthewbill/mdb.generator/issues/",
   "dependencies": {
     "yeoman-generator": "3.1.1"
   },
