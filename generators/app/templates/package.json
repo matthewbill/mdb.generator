@@ -1,0 +1,29 @@
+{
+    "name": "<%= name %>",
+    "version": "0.1.0",
+    "description": "<%= description %>",
+    "main": "index.js",
+    "scripts": {
+        "lint": "eslint .",
+        "docs": "jsdoc ./src -r -d ./docs --verbose",
+        "test": "jest __tests__ --coverage",
+        "int-test": "jest __int_tests__ --coverage"
+    },
+    "keywords": [
+        "mdb"
+    ],
+    "author": "Matthew Bill",
+    "license": "UNLICENSED",
+    "dependencies": {
+    },
+    "devDependencies": {
+        "jest": "23.5.0",
+        "eslint-config-mdb": "0.1.1",
+        "eslint": "5.5.0",
+        "eslint-config-airbnb": "17.1.0",
+        "eslint-plugin-import": "2.14.0",
+        "eslint-plugin-jsx-a11y": "6.1.1",
+        "eslint-plugin-react": "7.11.1"
+    }
+  }
+  

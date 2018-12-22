@@ -1,0 +1,32 @@
+{
+  "name": "generator-mdb",
+  "version": "0.1.0",
+  "description": "Yeoman generator for projects by Matthew Bill",
+  "scripts": {
+    "lint": "eslint .",
+    "docs": "jsdoc ./src -r -d ./docs --verbose",
+    "test": "jest __tests__ --coverage",
+    "int-test": "jest __int_tests__ --coverage"
+  },
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "mdb",
+    "yeoman-generator"
+  ],
+  "author": "Matthew Bill",
+  "license": "MIT",
+  "dependencies": {
+    "yeoman-generator": "3.1.1"
+  },
+  "devDependencies": {
+    "eslint-config-mdb": "0.1.1",
+    "eslint": "5.5.0",
+    "eslint-config-airbnb": "17.1.0",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-jsx-a11y": "6.1.1",
+    "eslint-plugin-react": "7.11.1",
+    "jest": "23.5.0"
+  }
+}
