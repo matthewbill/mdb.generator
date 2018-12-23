@@ -80,7 +80,11 @@ module.exports = class extends Generator {
     self.fs.copyTpl(
       self.templatePath('package.json'),
       self.destinationPath('package.json'),
-      { name: self.answers.name, description: self.answers.description, license: self.answers.license },
+      {
+        name: self.answers.name,
+        description: self.answers.description,
+        license: self.answers.license,
+      },
     );
 
     self.fs.copyTpl(
