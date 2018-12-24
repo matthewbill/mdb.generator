@@ -93,4 +93,8 @@ module.exports = class extends Generator {
       { name: self.answers.name, description: self.answers.description },
     );
   }
+
+  install() {
+    this.npmInstall();
+  }
 };
