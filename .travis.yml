@@ -8,12 +8,17 @@ branches:
   only:
   - master
 
+cache:
+  directories:
+  - "$HOME/.npm"
+
 before_install:
 # Setup
 - sudo apt-get update
 - sudo apt-get install -y jq
 
 script:
+- npm ci
 - npm audit
 - npm run lint
 
