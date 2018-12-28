@@ -1,3 +1,7 @@
+/**
+ * @copyright Matthew Bill
+ */
+
 const Generator = require('yeoman-generator');
 
 module.exports = class extends Generator {
@@ -13,7 +17,7 @@ module.exports = class extends Generator {
       type: 'input',
       name: 'description',
       message: 'Your project description',
-      default: '', // Default to current folder name
+      default: '',
     }, {
       type: 'list',
       name: 'license',
