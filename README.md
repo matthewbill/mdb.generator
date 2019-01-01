@@ -1,6 +1,6 @@
 # Matthew Bill Code Generator
 
-![mdb generator run](docs/mdb-gnerator-run.gif)
+![mdb generator run](docs/mdb-generator-run.gif)
 
 ## Install
 
