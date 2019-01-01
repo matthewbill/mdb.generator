@@ -1,5 +1,7 @@
 # Matthew Bill Code Generator
 
+![mdb generator run](docs/mdb-gnerator-run.gif)
+
 ## Install
 
 The generator should be installed at the global level:
