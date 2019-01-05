@@ -45,6 +45,10 @@ module.exports = class extends Generator {
   writing() {
     const self = this;
     self.fs.copy(
+      self.templatePath('index.js'),
+      self.destinationPath('index.js'),
+    );
+    self.fs.copy(
       self.templatePath('.eslintignore'),
       self.destinationPath('.eslintignore'),
     );
