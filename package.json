@@ -1,6 +1,6 @@
 {
   "name": "generator-mdb",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Yeoman generator for projects by Matthew Bill",
   "scripts": {
     "lint": "eslint .",
