@@ -44,10 +44,17 @@ module.exports = class extends Generator {
 
   writing() {
     const self = this;
+
     self.fs.copy(
       self.templatePath('index.js'),
       self.destinationPath('index.js'),
     );
+
+    self.fs.copy(
+      self.templatePath('src/my-module.js'),
+      self.destinationPath('src/my-module.js'),
+    );
+
     self.fs.copy(
       self.templatePath('.eslintignore'),
       self.destinationPath('.eslintignore'),
@@ -87,6 +94,11 @@ module.exports = class extends Generator {
       self.fs.copyTpl(
         self.templatePath('jest.config.js'),
         self.destinationPath('jest.config.js'),
+      );
+
+      self.fs.copy(
+        self.templatePath('__tests__/index.test.js'),
+        self.destinationPath('__tests__/index.test.js'),
       );
     }
 

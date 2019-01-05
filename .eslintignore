@@ -16,4 +16,6 @@ coverage/*
 # JS Docs
 docs/*
 
+generators/*
+
 node_modules/*
