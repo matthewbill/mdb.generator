@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "lint": "eslint .",
-        "docs": "jsdoc ./src -r -d ./docs --verbose",
+        "docs": "jsdoc ./src -r -d ./docs/api --verbose",
         "test": "jest __tests__ --coverage",
         "int-test": "jest __int_tests__ --coverage"
     },
@@ -23,6 +23,7 @@
     "dependencies": {
     },
     "devDependencies": {
+        "jsdoc": "3.5.5",
         "jest": "23.5.0",
         "eslint-config-mdb": "0.1.1",
         "eslint": "5.5.0",
