@@ -34,6 +34,11 @@ module.exports = class extends Generator {
       name: 'jest',
       message: 'Would you like to enable jest for unit testing?',
       default: true,
+    }, {
+      type: 'confirm',
+      name: 'cloudformation',
+      message: 'Would you like to add an AWS CloudFormation script?',
+      default: true,
     }]);
   }
 
@@ -78,6 +83,13 @@ module.exports = class extends Generator {
       self.fs.copyTpl(
         self.templatePath('jest.config.js'),
         self.destinationPath('jest.config.js'),
+      );
+    }
+
+    if (self.answers.cloudformation) {
+      self.fs.copy(
+        self.templatePath('scripts/deployment/component-template.json'),
+        self.destinationPath('scripts/deployment/component-template.json'),
       );
     }
 

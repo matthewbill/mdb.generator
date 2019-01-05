@@ -1,0 +1,22 @@
+{
+  "Parameters" : {
+      "ResourcePrefix" : {
+          "Description" : "The prefix to use before resource names. This enables multiple stacks to be created.",
+          "Type" : "String",
+          "Default": ""
+      },
+      "Environment": {
+        "Type":"String",
+        "Description": "The Environment the resources belong to.",
+        "AllowedValues" : ["production", "staging", "test", "debug"],
+        "Default": "test"
+      }
+  },
+  "Conditions" : {
+      "AddResourcePrefix" : { "Fn::Not" : [{ "Fn::Equals" : [{"Ref" : "ResourcePrefix"}, ""]}] }
+  },
+  "Resources" : {
+  },
+  "Outputs": {
+  }
+}
