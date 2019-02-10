@@ -3,6 +3,7 @@
  */
 
 const Generator = require('yeoman-generator');
+const { GitHubHostService, GitService } = require('mdb-git-services');
 
 module.exports = class extends Generator {
   async prompting() {
@@ -17,6 +18,21 @@ module.exports = class extends Generator {
       type: 'input',
       name: 'description',
       message: 'Your project description',
+      default: '',
+    }, {
+      type: 'input',
+      name: 'org',
+      message: 'Your git repo host organisation (username for personal)',
+      default: '',
+    }, {
+      type: 'input',
+      name: 'gitHubUsername',
+      message: 'Your GutHub username',
+      default: '',
+    }, {
+      type: 'input',
+      name: 'gitHubToken',
+      message: 'Your GutHub token',
       default: '',
     }, {
       type: 'list',
@@ -42,9 +58,25 @@ module.exports = class extends Generator {
     }]);
   }
 
-  writing() {
+  async writing() {
     const self = this;
 
+    var pathToRepo = require("path").resolve("");
+    const gitHubUsername = self.answers.gitHubUsername;
+    const gitHubToken = self.answers.gitHubToken;
+
+    const repoName = self.answers.name;
+    const repoDescription = self.answers.description;
+    const repoOrg = self.answers.org;
+
+    // Defined
+    const gitUsername = 'mdb-generator';
+    const gitEmail = 'matthewdbill@gmail.com';
+
+    const gitHubHostService = new GitHubHostService(gitHubUsername, gitHubToken);
+    self.gitService = new GitService(gitHubHostService, gitUsername, gitEmail, gitHubToken);
+
+    self.remoteDetails = await self.gitService.setupRepo(pathToRepo, repoName, repoDescription, repoOrg)
     self.fs.copy(
       self.templatePath('index.js'),
       self.destinationPath('index.js'),
@@ -127,6 +159,16 @@ module.exports = class extends Generator {
   }
 
   install() {
-    this.npmInstall();
+    const self = this;
+    self.npmInstall();
+  }
+
+  end() {
+    const self = this;
+    self.gitService.initialCommit(self.remoteDetails.repo, self.remoteDetails.remote, 'initial commit - mdb generator').then(result => {
+      console.log('Finished pushing changes to remote.');
+    }).catch(reason => {
+      console.log(reason);
+    });
   }
 };
