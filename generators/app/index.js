@@ -5,9 +5,14 @@
 const Generator = require('yeoman-generator');
 const { GitHubHostService, GitService } = require('mdb-git-services');
 
+const GeneratorConfigService = require('./generator-config-service.js');
+const generatorConfigService = new GeneratorConfigService();
+
 module.exports = class extends Generator {
   async prompting() {
     const self = this;
+    const config = generatorConfigService.getConfigSync();
+
     self.answers = await self.prompt([{
       type: 'input',
       name: 'name',
@@ -23,17 +28,17 @@ module.exports = class extends Generator {
       type: 'input',
       name: 'org',
       message: 'Your git repo host organisation (username for personal)',
-      default: '',
+      default: config.org || '',
     }, {
       type: 'input',
       name: 'gitHubUsername',
       message: 'Your GutHub username',
-      default: '',
+      default: config.gitHubUsername || '',
     }, {
       type: 'input',
       name: 'gitHubToken',
       message: 'Your GutHub token',
-      default: '',
+      default: config.gitHubToken || '',
     }, {
       type: 'list',
       name: 'license',
@@ -56,6 +61,11 @@ module.exports = class extends Generator {
       message: 'Would you like to add an AWS CloudFormation script?',
       default: true,
     }]);
+    generatorConfigService.saveConfigSync({
+      org: self.answers.org,
+      gitHubUsername: self.answers.gitHubUsername,
+      gitHubToken: self.answers.gitHubToken,
+    });
   }
 
   async writing() {
