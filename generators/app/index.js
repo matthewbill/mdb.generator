@@ -166,6 +166,17 @@ module.exports = class extends Generator {
       self.destinationPath('README.md'),
       { name: self.answers.name, description: self.answers.description },
     );
+
+    let projectKey = self.answers.name;
+    if(self.answers.org) {
+      projectKey = `${self.answers.org}_${self.answers.name}`;
+    }
+
+    self.fs.copyTpl(
+      self.templatePath('sonar-project.properties'),
+      self.destinationPath('sonar-project.properties'),
+      { projectKey },
+    );
   }
 
   install() {
