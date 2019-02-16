@@ -30,6 +30,11 @@ module.exports = class extends Generator {
       message: 'Your git repo host organisation (username for personal)',
       default: config.org || '',
     }, {
+      type: 'confirm',
+      name: 'createRemoteRepo',
+      message: 'Would you like to create the remote repo?',
+      default: true,
+    }, {
       type: 'input',
       name: 'gitHubUsername',
       message: 'Your GutHub username',
@@ -86,7 +91,10 @@ module.exports = class extends Generator {
     const gitHubHostService = new GitHubHostService(gitHubUsername, gitHubToken);
     self.gitService = new GitService(gitHubHostService, gitUsername, gitEmail, gitHubToken);
 
-    self.remoteDetails = await self.gitService.setupRepo(pathToRepo, repoName, repoDescription, repoOrg)
+    if(self.answers.createRemoteRepo) {
+      self.remoteDetails = await self.gitService.setupRepo(pathToRepo, repoName, repoDescription, repoOrg);
+    }
+    
     self.fs.copy(
       self.templatePath('index.js'),
       self.destinationPath('index.js'),
@@ -142,6 +150,11 @@ module.exports = class extends Generator {
         self.templatePath('__tests__/index.test.js'),
         self.destinationPath('__tests__/index.test.js'),
       );
+
+      self.fs.copy(
+        self.templatePath('.vscode/launch.json'),
+        self.destinationPath('.vscode/launch.json'),
+      );
     }
 
     if (self.answers.cloudformation) {
@@ -186,10 +199,12 @@ module.exports = class extends Generator {
 
   end() {
     const self = this;
-    self.gitService.initialCommit(self.remoteDetails.repo, self.remoteDetails.remote, 'initial commit - mdb generator').then(result => {
-      console.log('Finished pushing changes to remote.');
-    }).catch(reason => {
-      console.log(reason);
-    });
+    if(self.answers.createRemoteRepo) {
+      self.gitService.initialCommit(self.remoteDetails.repo, self.remoteDetails.remote, 'initial commit - mdb generator').then(result => {
+        console.log('Finished pushing changes to remote.');
+      }).catch(reason => {
+        console.log(reason);
+      });
+    }
   }
 };
