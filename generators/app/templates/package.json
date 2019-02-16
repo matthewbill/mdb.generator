@@ -24,9 +24,9 @@
     },
     "devDependencies": {
         "jsdoc": "3.5.5",
-        "jest": "23.5.0",
+        "jest": "24.1.0",
         "eslint-config-mdb": "0.1.1",
-        "eslint": "5.5.0",
+        "eslint": "5.14.0",
         "eslint-config-airbnb": "17.1.0",
         "eslint-plugin-import": "2.14.0",
         "eslint-plugin-jsx-a11y": "6.1.1",

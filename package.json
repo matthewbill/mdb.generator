@@ -24,18 +24,18 @@
   "homepage": "https://github.com/matthewbill/mdb.generator#readme",
   "bugs": "https://github.com/matthewbill/mdb.generator/issues/",
   "dependencies": {
-    "mdb-git-services": "0.1.0",
-    "yeoman-generator": "3.1.1"
+    "mdb-git-services": "1.0.0",
+    "yeoman-generator": "3.2.0"
   },
   "devDependencies": {
-    "jsdoc": "3.5.5",
-    "eslint-config-mdb": "0.1.1",
-    "eslint": "5.5.0",
+    "eslint": "5.14.0",
     "eslint-config-airbnb": "17.1.0",
+    "eslint-config-mdb": "0.1.1",
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-jsx-a11y": "6.1.1",
     "eslint-plugin-react": "7.11.1",
-    "jest": "23.5.0",
+    "jest": "24.1.0",
+    "jsdoc": "3.5.5",
     "mdb-build-tools": "0.1.1"
   }
 }

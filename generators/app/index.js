@@ -80,10 +80,6 @@ module.exports = class extends Generator {
     const gitHubUsername = self.answers.gitHubUsername;
     const gitHubToken = self.answers.gitHubToken;
 
-    const repoName = self.answers.name;
-    const repoDescription = self.answers.description;
-    const repoOrg = self.answers.org;
-
     // Defined
     const gitUsername = 'mdb-generator';
     const gitEmail = 'matthewdbill@gmail.com';
@@ -91,9 +87,7 @@ module.exports = class extends Generator {
     const gitHubHostService = new GitHubHostService(gitHubUsername, gitHubToken);
     self.gitService = new GitService(gitHubHostService, gitUsername, gitEmail, gitHubToken);
 
-    if(self.answers.createRemoteRepo) {
-      self.remoteDetails = await self.gitService.setupRepo(pathToRepo, repoName, repoDescription, repoOrg);
-    }
+    self.repo = await self.gitService.init(pathToRepo);
     
     self.fs.copy(
       self.templatePath('index.js'),
@@ -197,14 +191,20 @@ module.exports = class extends Generator {
     self.npmInstall();
   }
 
-  end() {
+  async end() {
     const self = this;
     if(self.answers.createRemoteRepo) {
-      self.gitService.initialCommit(self.remoteDetails.repo, self.remoteDetails.remote, 'initial commit - mdb generator').then(result => {
-        console.log('Finished pushing changes to remote.');
-      }).catch(reason => {
-        console.log(reason);
-      });
+      const repoName = self.answers.name;
+      const repoDescription = self.answers.description;
+      const repoOrg = self.answers.org;
+      self.remoteUrl = await self.gitService.createRemoteRepo(repoName, repoDescription, repoOrg);
+      self.remote = await self.gitService.createRemote(self.repo, self.remoteUrl);
+    }
+
+    await self.gitService.commitAll(self.repo, 'initial commit - mdb generator');
+
+    if(self.answers.createRemoteRepo) {
+      await self.gitService.push(self.remote);
     }
   }
 };
