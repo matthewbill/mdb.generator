@@ -1,8 +1,5 @@
-describe('exports', () => {
-  test('exports work correctly', () => {
-
-      const { MyModule } = require('../index');
-      expect(MyModule).toBeDefined();
+describe('same test grouping', () => {
+  test('sample test', () => {
       
   });
 });

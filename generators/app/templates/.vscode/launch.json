@@ -12,7 +12,7 @@
               "IS_DEBUG": "true"
           },
           "stopOnEntry":true
-      },
+      },<%if (tests) { %>
       {
           "name": "Unit Tests",
           "type": "node",
@@ -50,6 +50,6 @@
           "console": "integratedTerminal",
           "internalConsoleOptions": "neverOpen",
           "stopOnEntry":true
-      }
+      }<% } %>
   ]
 }

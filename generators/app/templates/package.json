@@ -5,14 +5,14 @@
     "main": "index.js",
     "scripts": {
         "lint": "eslint .",
-        "docs": "jsdoc ./src -r -d ./docs/api --verbose",
+        "docs": "jsdoc ./src -r -d ./docs/api --verbose"<%if (tests) { %>,
         "test": "jest __tests__ --coverage",
-        "int-test": "jest __int_tests__ --coverage"
-    },
+        "int-test": "jest __int_tests__ --coverage"<% } %>
+    }, <%if (createLocalRepo) { %>
     "repository": {
         "type": "git",
         "url": "git+https://github.com/matthewbill/<%= name %>.git"
-    },
+    },<% } %>
     "keywords": [
         "mdb"
     ],

@@ -36,11 +36,6 @@ before_deploy:
 - git config user.name "Travis CI"
 - git config user.email "travis@travis-ci.org"
 
-deploy:
-  provider: npm
-  email: $MDB_NPM_EMAIL
-  api_key: $MDB_NPM_TOKEN
-
 after_deploy:
 # Update Repo
 - git add package.json
