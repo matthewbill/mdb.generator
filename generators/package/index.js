@@ -8,7 +8,7 @@ module.exports = class extends Generator {
 
   initializing() {
     const self = this;
-    self.composeWith(require.resolve('../app/index.js'), { parent: self, writeSampleIndex: false });
+    self.composeWith(require.resolve('../app/index.js'), { parent: self, writeSampleIndex: false, package: true });
   }
 
   async writing() {

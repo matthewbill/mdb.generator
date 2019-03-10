@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * @copyright Matthew Bill
+ * @copyright <%= copyright %>
 */
 
 console.log('hello world - this should break linting');

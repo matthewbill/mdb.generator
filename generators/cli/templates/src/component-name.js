@@ -1,5 +1,5 @@
 /**
- * @copyright Matthew Bill
+ * @copyright <%= copyright %>
  */
 
 const program = require('commander');
@@ -12,7 +12,7 @@ const MyCommand = require('./commands/my-command.js');
 /**
  * Class representing {insert description}.
  */
-class Name extends BaseConsole {
+class <%= componentName %> extends BaseConsole {
   constructor() {
     super();
     const self = this;

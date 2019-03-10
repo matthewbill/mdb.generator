@@ -35,7 +35,12 @@ before_deploy:
 - git config --global push.default simple
 - git config user.name "Travis CI"
 - git config user.email "travis@travis-ci.org"
-
+<%if (package) { %>
+deploy:
+  provider: npm
+  email: $MDB_NPM_EMAIL
+  api_key: $MDB_NPM_TOKEN
+<% } %>
 after_deploy:
 # Update Repo
 - git add package.json

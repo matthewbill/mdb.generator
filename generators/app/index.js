@@ -12,7 +12,18 @@ const generatorConfigService = new GeneratorConfigService();
 module.exports = class extends Generator {
   initializing() {
     const self = this;
-    if (!self.options) { self.options = { writeSampleIndex: true } };
+    if (!self.options) { 
+      self.options = {}
+    }
+    if(!self.options.writeSampleIndex) {
+      self.options.writeSampleIndex = true;
+    }
+    if(!self.options.package) {
+      self.options.package = false;
+    }
+    if(!self.options.bin) {
+      self.options.bin = false;
+    }
   }
   async prompting() {
     const self = this;
@@ -80,7 +91,7 @@ module.exports = class extends Generator {
         message: 'Would you like to create the remote repo?',
         default: true,
       }]);
-      if (self.gitRemoteAnswers.createLocalRepo) {
+      if (self.gitLocalAnswers.createRemoteRepo) {
         self.gitRemoteAnswers = await self.prompt([{
           type: 'input',
           name: 'org',
@@ -92,7 +103,7 @@ module.exports = class extends Generator {
           message: 'Your GutHub username',
           default: config.gitHubUsername || '',
         }, {
-          type: 'password',
+          type: 'input',
           name: 'gitHubToken',
           message: 'Your GutHub token',
           default: config.gitHubToken || '',
@@ -111,13 +122,18 @@ module.exports = class extends Generator {
       self.options.parent.appGenerator = this;
     }
 
-    generatorConfigService.saveConfigSync({
+    const newConfig = { ...config, 
       org: self.answers.org,
       copyright: self.answers.copyright,
-      gitHubOrg: self.answers.gitHubOrg,
-      gitHubUsername: self.answers.gitHubUsername,
-      gitHubToken: self.answers.gitHubToken,
-    });
+    };
+
+    if(self.gitLocalAnswers && self.gitLocalAnswers.createRemoteRepo) {
+      newConfig.gitHubOrg = self.gitRemoteAnswers.gitHubOrg;
+      newConfig.gitHubUsername = self.gitRemoteAnswers.gitHubUsername;
+      newConfig.gitHubToken = self.gitRemoteAnswers.gitHubToken;
+    }
+
+    generatorConfigService.saveConfigSync(newConfig);
   }
 
   async writing() {
@@ -125,8 +141,8 @@ module.exports = class extends Generator {
     if(self.answers.createLocalRepo) {
 
       var pathToRepo = require("path").resolve("");
-      const gitHubUsername = self.answers.gitHubUsername;
-      const gitHubToken = self.answers.gitHubToken;
+      const gitHubUsername = self.gitRemoteAnswers.gitHubUsername;
+      const gitHubToken = self.gitRemoteAnswers.gitHubToken;
 
       // Defined
       const gitUsername = 'mdb-generator';
@@ -134,7 +150,7 @@ module.exports = class extends Generator {
 
       const gitHubHostService = new GitHubHostService(gitHubUsername, gitHubToken);
       self.gitService = new GitService(gitHubHostService, gitUsername, gitEmail, gitHubToken);
-
+      self.log('initializing local repo');
       self.repo = await self.gitService.init(pathToRepo);
     }
 
@@ -178,7 +194,7 @@ module.exports = class extends Generator {
       self.fs.copyTpl(
         self.templatePath('.travis.yml'),
         self.destinationPath('.travis.yml'),
-        { name: self.answers.name },
+        { name: self.answers.name, package: self.options.package },
       );
     }
 
@@ -217,6 +233,8 @@ module.exports = class extends Generator {
         license: self.answers.license,
         createLocalRepo: self.answers.createLocalRepo,
         tests: self.answers.jest,
+        componentName: self.answers.componentName,
+        bin: self.options.bin,
       },
     );
 
@@ -248,15 +266,18 @@ module.exports = class extends Generator {
   async end() {
     const self = this;
     if(self.answers.createLocalRepo && self.gitLocalAnswers.createRemoteRepo) {
-      const repoName = self.gitRemoteAnswers.name;
-      const repoDescription = self.gitRemoteAnswers.description;
+      const repoName = self.answers.name;
+      const repoDescription = self.answers.description;
       const repoOrg = self.gitRemoteAnswers.org;
+      self.log(`creating remote repo ${repoName} for org ${repoOrg}`);
       self.remoteUrl = await self.gitService.createRemoteRepo(repoName, repoDescription, repoOrg);
+      self.log(`remote url: ${self.remoteUrl}`);
+      self.log('adding remote');
       self.remote = await self.gitService.createRemote(self.repo, self.remoteUrl);
-
+      self.log('committing files');
       await self.gitService.commitAll(self.repo, 'initial commit - mdb generator');
-
-      if(self.answers.createRemoteRepo) {
+      if(self.gitLocalAnswers.createRemoteRepo) {
+        self.log('pushing');
         await self.gitService.push(self.remote);
       }
     }

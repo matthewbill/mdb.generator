@@ -7,34 +7,49 @@ const Generator = require('yeoman-generator');
 const ComponentNames = require('../../src/component-names.js');
 
 module.exports = class extends Generator {
-  default() {
-    this.composeWith(require.resolve('../app'));
-  }
-
-  async propting() {
+  initializing() {
     const self = this;
-    self.answers.test = 'asdsad';
+    self.composeWith(require.resolve('../app/index.js'), { parent: self, writeSampleIndex: false, package: true, binary: true });
   }
 
   async writing() {
     const self = this;
-    console.log(self.answers);
+    const moduleUrl = `src/${self.appGenerator.answers.componentName}.js`;
 
     self.fs.copyTpl(
       self.templatePath('bin/index.js'),
       self.destinationPath('bin/index.js'),
       {
-        name: self.answers.name,
-        componentNameVar: self.answers.description.componentNameVar,
-        componentNameClass: self.answers.description.componentNameClass,
-        copyright: self.answers.license,
+        componentName: self.appGenerator.answers.componentNameVar,
+        componentNameVar: self.appGenerator.answers.componentNameVar,
+        componentNameClass: self.appGenerator.answers.componentNameClass,
+        copyright: self.appGenerator.answers.copyright, 
       },
     );
 
-    if (self.answers.jest) {
+    self.fs.copyTpl(
+      self.templatePath('src/component-name.js'),
+      self.destinationPath(moduleUrl),
+      {
+        componentName: self.appGenerator.answers.componentNameVar,
+        componentNameVar: self.appGenerator.answers.componentNameVar,
+        componentNameClass: self.appGenerator.answers.componentNameClass,
+        copyright: self.appGenerator.answers.copyright, 
+      },
+    );
+
+    self.fs.copyTpl(
+      self.templatePath('src/commands/my-command.js'),
+      self.destinationPath('src/commands/my-command.js'),
+      {
+        copyright: self.appGenerator.answers.copyright, 
+      },
+    );
+
+    if (self.appGenerator.answers.jest) {
       self.fs.copy(
         self.templatePath('__tests__/bin/index.test.js'),
-        self.destinationPath('__tests__/bin/index.test.js'),
+        self.templatePath('__tests__/bin/index.test.js'),
       );
     }
   }

@@ -4,7 +4,7 @@
  * @copyright <%= copyright %>
 */
 
-const <%= componentNameClass %> = require('../src/<%= name %>.js');
+const <%= componentNameClass %> = require('../src/<%= componentName %>.js');
 
 console.log('hello world - this should break linting');
 

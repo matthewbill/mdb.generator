@@ -1,3 +1,7 @@
+/**
+ * @copyright <%= copyright %>
+ */
+
 class MyCommand {
   constructor(options) {
     const self = this;
