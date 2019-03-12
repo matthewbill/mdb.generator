@@ -12,16 +12,17 @@ const generatorConfigService = new GeneratorConfigService();
 module.exports = class extends Generator {
   initializing() {
     const self = this;
-    if (!self.options) { 
+    if (self.options === undefined) { 
       self.options = {}
     }
-    if(!self.options.writeSampleIndex) {
+    if(self.options.writeSampleIndex === undefined) {
       self.options.writeSampleIndex = true;
     }
-    if(!self.options.package) {
+
+    if(self.options.package === undefined) {
       self.options.package = false;
     }
-    if(!self.options.bin) {
+    if(self.options.bin === undefined) {
       self.options.bin = false;
     }
   }
@@ -29,7 +30,6 @@ module.exports = class extends Generator {
     const self = this;
     const config = generatorConfigService.getConfigSync();
     const defaultAppName = ComponentNames.getComponentName(self.appname);
-
     self.answers = await self.prompt([{
       type: 'input',
       name: 'name',
@@ -155,6 +155,7 @@ module.exports = class extends Generator {
     }
 
     if (self.options.writeSampleIndex) {
+      self.log('writing sample index file');
       self.fs.copyTpl(
         self.templatePath('index.js'),
         self.destinationPath('index.js'),
