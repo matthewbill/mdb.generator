@@ -1,3 +1,5 @@
+/* eslint-disable global-require */
+/* eslint-disable import/no-dynamic-require */
 const fs = require('fs');
 const os = require('os');
 
@@ -5,7 +7,7 @@ class GeneratorConfigService {
   constructor() {
     const self = this;
     self.homeDir = os.homedir();
-    self.path = `${self.homeDir}/mdb-generator.json`
+    self.path = `${self.homeDir}/mdb-generator.json`;
   }
 
   checkConfigExists() {
@@ -15,11 +17,10 @@ class GeneratorConfigService {
 
   getConfigSync() {
     const self = this;
-    if(self.checkConfigExists()) {
+    if (self.checkConfigExists()) {
       return require(self.path);
-    } else {
-      return {};
     }
+    return {};
   }
 
   saveConfigSync(config) {

@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable max-len */
 const self = this;
 self.answers = {};
 self.answers.name = 'a gen test 2 2';
