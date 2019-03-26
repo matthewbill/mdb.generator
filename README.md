@@ -2,6 +2,18 @@
 
 ![mdb generator run](docs/mdb-generator-run.gif)
 
+## Generators
+
+The following generators are included in this package:
+
+| name          | binary             | cli                | envvar config      | package            |
+| ------------- | ------------------ | ------------------ | ------------------ | ------------------ |
+|  default      |                    |                    |                    |                    |
+| `package`     |                    |                    |                    | :heavy_check_mark: |
+| `application` |                    |                    | :heavy_check_mark: |                    |
+| `bin`         | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
+| `cli`         | :heavy_check_mark: | :heavy_check_mark: |                    | :heavy_check_mark: |
+
 ## Prerequisites
 
 The Matthew Bill code generator is based on [Yeoman](https://yeoman.io/). The `yo` npm package first needs to be installed globally.
