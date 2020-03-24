@@ -13,7 +13,8 @@
     "url": "git+https://github.com/matthewbill/mdb.generator.git"
   },
   "files": [
-    "generators"
+    "generators",
+    "src"
   ],
   "keywords": [
     "mdb",
